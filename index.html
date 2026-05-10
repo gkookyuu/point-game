@@ -1,41 +1,490 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <title>ポイントゲーム</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<title>Member Status</title>
+
+<style>
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  font-family: "Helvetica Neue", sans-serif;
+  min-height:100vh;
+  color:white;
+  overflow-x:hidden;
+
+  background:
+    radial-gradient(circle at top left, rgba(255,215,0,0.15), transparent 25%),
+    radial-gradient(circle at top right, rgba(255,255,255,0.08), transparent 20%),
+    radial-gradient(circle at bottom right, rgba(255,215,0,0.12), transparent 25%),
+    linear-gradient(135deg,#05070d,#0f1726,#05070d);
+
+  padding:20px;
+}
+
+/* キラキラ背景 */
+
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  background-image:
+    radial-gradient(2px 2px at 20% 30%, rgba(255,255,255,0.7), transparent),
+    radial-gradient(2px 2px at 70% 20%, rgba(255,215,0,0.7), transparent),
+    radial-gradient(2px 2px at 80% 80%, rgba(255,255,255,0.7), transparent),
+    radial-gradient(2px 2px at 30% 70%, rgba(255,215,0,0.7), transparent);
+
+  animation:sparkle 6s linear infinite;
+  pointer-events:none;
+}
+
+@keyframes sparkle{
+  from{
+    transform:translateY(0);
+  }
+  to{
+    transform:translateY(-20px);
+  }
+}
+
+.container{
+  max-width:900px;
+  margin:auto;
+}
+
+/* メインカード */
+
+.main-card{
+
+  position:relative;
+
+  border-radius:35px;
+
+  padding:40px;
+
+  overflow:hidden;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255,215,0,0.18),
+      rgba(255,255,255,0.04)
+    );
+
+  border:1px solid rgba(255,255,255,0.15);
+
+  backdrop-filter: blur(20px);
+
+  box-shadow:
+    0 0 50px rgba(255,215,0,0.15),
+    0 0 100px rgba(0,0,0,0.4);
+
+  animation:fadeUp 1s ease;
+}
+
+/* 光 */
+
+.main-card::before{
+  content:"";
+  position:absolute;
+  width:300px;
+  height:300px;
+  background:radial-gradient(circle, rgba(255,215,0,0.25), transparent 70%);
+  top:-100px;
+  right:-100px;
+}
+
+/* 名前 */
+
+.member-label{
+  font-size:18px;
+  opacity:0.8;
+  letter-spacing:3px;
+  margin-bottom:20px;
+}
+
+.name{
+  font-size:64px;
+  font-weight:700;
+  margin-bottom:10px;
+}
+
+/* ポイント */
+
+.point-label{
+  margin-top:40px;
+  font-size:20px;
+  opacity:0.7;
+}
+
+.point{
+  font-size:110px;
+  font-weight:bold;
+  line-height:1;
+  margin-top:10px;
+}
+
+.point span{
+  font-size:45px;
+}
+
+/* ランク */
+
+.rank-circle{
+
+  position:absolute;
+  right:40px;
+  top:60px;
+
+  width:260px;
+  height:260px;
+
+  border-radius:50%;
+
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+
+  border:4px solid rgba(255,255,255,0.15);
+
+  box-shadow:
+    0 0 30px rgba(255,215,0,0.25),
+    inset 0 0 30px rgba(255,255,255,0.05);
+
+  backdrop-filter: blur(10px);
+}
+
+.rank-type{
+  font-size:22px;
+  letter-spacing:3px;
+  margin-bottom:10px;
+}
+
+.rank-name{
+  font-size:58px;
+  font-weight:bold;
+}
+
+.rank-position{
+  margin-top:15px;
+  font-size:24px;
+  opacity:0.9;
+}
+
+/* 色切り替え */
+
+.gold{
+  color:#f6d36d;
+}
+
+.silver{
+  color:#d8d8d8;
+}
+
+.bronze{
+  color:#d79a61;
+}
+
+.blue{
+  color:#79bfff;
+}
+
+/* 他メンバー */
+
+.other-section{
+  margin-top:35px;
+}
+
+.other-title{
+  margin-bottom:20px;
+  font-size:22px;
+  opacity:0.9;
+}
+
+/* 横並び */
+
+.member-list{
+  display:flex;
+  gap:15px;
+  overflow-x:auto;
+  padding-bottom:10px;
+}
+
+.member-list::-webkit-scrollbar{
+  height:8px;
+}
+
+.member-list::-webkit-scrollbar-thumb{
+  background:#555;
+  border-radius:10px;
+}
+
+/* 小カード */
+
+.member-card{
+
+  min-width:150px;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255,255,255,0.06),
+      rgba(255,255,255,0.02)
+    );
+
+  border-radius:25px;
+
+  padding:20px;
+
+  text-align:center;
+
+  border:1px solid rgba(255,255,255,0.08);
+
+  transition:0.3s;
+}
+
+.member-card:hover{
+  transform:translateY(-5px);
+}
+
+.member-rank{
+  font-size:18px;
+  margin-bottom:15px;
+  opacity:0.8;
+}
+
+.member-name{
+  font-size:24px;
+  margin-bottom:15px;
+  font-weight:bold;
+}
+
+.member-point{
+  font-size:32px;
+  font-weight:bold;
+}
+
+.member-point span{
+  font-size:18px;
+}
+
+/* アニメーション */
+
+@keyframes fadeUp{
+  from{
+    opacity:0;
+    transform:translateY(30px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+/* スマホ */
+
+@media(max-width:768px){
+
+  .main-card{
+    padding:30px;
+  }
+
+  .rank-circle{
+    position:relative;
+    margin:auto;
+    top:auto;
+    right:auto;
+    margin-top:40px;
+    width:220px;
+    height:220px;
+  }
+
+  .name{
+    font-size:48px;
+  }
+
+  .point{
+    font-size:72px;
+  }
+
+}
+
+</style>
 </head>
+
 <body>
 
-  <h1 id="name">読み込み中...</h1>
-  <p id="point"></p>
+<div class="container">
 
-  <script>
-    const sheetID = "1LNRt--CsEMVtk7VQUjSAolO4bLh6881EKz9dPxHNZWo";
-    const sheetName = "シート1";
+  <div class="main-card">
 
-    const url = `https://opensheet.elk.sh/${sheetID}/${sheetName}`;
+    <div class="member-label">
+      MEMBER STATUS
+    </div>
 
-    async function loadData() {
-      const response = await fetch(url);
-      const data = await response.json();
+    <div class="name" id="name">
+      読み込み中...
+    </div>
 
-      const params = new URLSearchParams(window.location.search);
-      const userID = params.get("id");
+    <div class="point-label">
+      CURRENT POINT
+    </div>
 
-      const user = data.find(row => row.ID === userID);
+    <div class="point" id="point">
+      0<span>pt</span>
+    </div>
 
-      if(user){
-        document.getElementById("name").textContent = user.名前;
-        document.getElementById("point").textContent =
-          `現在ポイント：${user.ポイント}pt`;
-      } else {
-        document.getElementById("name").textContent =
-          "ユーザーが見つかりません";
-      }
+    <div class="rank-circle" id="rankCircle">
+
+      <div class="rank-type">
+        STATUS
+      </div>
+
+      <div class="rank-name" id="rankName">
+        GOLD
+      </div>
+
+      <div class="rank-position" id="rankPosition">
+        1位
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="other-section">
+
+    <div class="other-title">
+      他のメンバーのポイント
+    </div>
+
+    <div class="member-list" id="memberList">
+
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+
+const sheetID = "1LNRt--CsEMVtk7VQUjSAolO4bLh6881EKz9dPxHNZWo";
+const sheetName = "シート1";
+
+const url = `https://opensheet.elk.sh/${sheetID}/${sheetName}`;
+
+async function loadData(){
+
+  const response = await fetch(url);
+  const data = await response.json();
+
+  // ポイント順
+
+  data.sort((a,b)=>
+    Number(b.ポイント) - Number(a.ポイント)
+  );
+
+  // URL ID取得
+
+  const params = new URLSearchParams(window.location.search);
+
+  const userID = params.get("id");
+
+  // ユーザー取得
+
+  const user = data.find(row => row.ID === userID);
+
+  if(user){
+
+    document.getElementById("name").textContent =
+      `${user.名前} 様`;
+
+    document.getElementById("point").innerHTML =
+      `${user.ポイント}<span>pt</span>`;
+
+    // ランキング
+
+    const rank =
+      data.findIndex(row => row.ID === userID) + 1;
+
+    document.getElementById("rankPosition").textContent =
+      `${rank}位`;
+
+    // ランクカラー
+
+    const rankCircle =
+      document.getElementById("rankCircle");
+
+    const rankName =
+      document.getElementById("rankName");
+
+    if(rank === 1){
+
+      rankCircle.classList.add("gold");
+      rankName.textContent = "GOLD";
+
+    }else if(rank === 2){
+
+      rankCircle.classList.add("silver");
+      rankName.textContent = "SILVER";
+
+    }else if(rank === 3){
+
+      rankCircle.classList.add("bronze");
+      rankName.textContent = "BRONZE";
+
+    }else{
+
+      rankCircle.classList.add("blue");
+      rankName.textContent = "BLUE";
+
     }
 
-    loadData();
-  </script>
+  }
+
+  // 他メンバー
+
+  const memberList =
+    document.getElementById("memberList");
+
+  data.forEach((player,index)=>{
+
+    memberList.innerHTML += `
+
+      <div class="member-card">
+
+        <div class="member-rank">
+          ${index + 1}位
+        </div>
+
+        <div class="member-name">
+          ${player.名前}
+        </div>
+
+        <div class="member-point">
+          ${player.ポイント}
+          <span>pt</span>
+        </div>
+
+      </div>
+
+    `;
+
+  });
+
+}
+
+loadData();
+
+</script>
 
 </body>
 </html>
