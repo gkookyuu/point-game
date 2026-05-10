@@ -322,11 +322,15 @@ body::before{
 }
 
 .plus{
-  color:#5bff9d;
+  color:#6ebcff;
 }
 
 .minus{
   color:#ff7b7b;
+}
+
+.zero{
+  color:#5bff9d;
 }
 
 /* アニメーション */
@@ -633,30 +637,39 @@ async function loadData(){
 
   userHistory.forEach(item=>{
 
-    const isPlus =
-      item.ポイント.includes("+");
+  let pointClass = "";
 
-    historyList.innerHTML += `
+  if(item.ポイント.includes("+")){
 
-      <div class="history-item">
+    pointClass = "plus";
 
-        <div class="history-text">
-          ${item.内容}
-        </div>
+  }else if(item.ポイント.includes("-")){
 
-        <div class="history-point ${isPlus ? "plus" : "minus"}">
+    pointClass = "minus";
 
-          ${item.ポイント}
+  }else{
 
-        </div>
+    pointClass = "zero";
 
+  }
+
+  historyList.innerHTML += `
+
+    <div class="history-item">
+
+      <div class="history-text">
+        ${item.内容}
       </div>
 
-    `;
+      <div class="history-point ${pointClass}">
+        ${item.ポイント}
+      </div>
 
-  });
+    </div>
 
-}
+  `;
+
+});
 
 loadData();
 
