@@ -535,8 +535,12 @@ async function loadData(){
       `${user.名前} 様`;
 
     animatePoint(
-      Number(user.ポイント)
-    );
+  Number(
+    user.ポイント
+      .replace(/,/g,"")
+      .trim()
+  )
+);
 
     // ランキング
 
