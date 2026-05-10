@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>ポイントゲーム</title>
+</head>
+<body>
+
+  <h1 id="name">読み込み中...</h1>
+  <p id="point"></p>
+
+  <script>
+    const sheetID = "1LNRt--CsEMVtk7VQUjSAolO4bLh6881EKz9dPxHNZWo";
+    const sheetName = "シート1";
+
+    const url = `https://opensheet.elk.sh/${sheetID}/${sheetName}`;
+
+    async function loadData() {
+      const response = await fetch(url);
+      const data = await response.json();
+
+      const params = new URLSearchParams(window.location.search);
+      const userID = params.get("id");
+
+      const user = data.find(row => row.ID === userID);
+
+      if(user){
+        document.getElementById("name").textContent = user.名前;
+        document.getElementById("point").textContent =
+          `現在ポイント：${user.ポイント}pt`;
+      } else {
+        document.getElementById("name").textContent =
+          "ユーザーが見つかりません";
+      }
+    }
+
+    loadData();
+  </script>
+
+</body>
+</html>
