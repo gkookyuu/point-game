@@ -21,10 +21,10 @@ body{
   overflow-x:hidden;
 
   background:
-    radial-gradient(circle at top left, rgba(255,215,0,0.15), transparent 25%),
-    radial-gradient(circle at top right, rgba(255,255,255,0.08), transparent 20%),
-    radial-gradient(circle at bottom right, rgba(255,215,0,0.12), transparent 25%),
-    linear-gradient(135deg,#05070d,#0f1726,#05070d);
+  radial-gradient(circle at top left, rgba(120,170,255,0.12), transparent 25%),
+  radial-gradient(circle at top right, rgba(255,255,255,0.06), transparent 20%),
+  radial-gradient(circle at bottom right, rgba(120,170,255,0.10), transparent 25%),
+  linear-gradient(135deg,#05070d,#0f1726,#05070d);
 
   padding:20px;
 }
@@ -149,22 +149,28 @@ body::before{
 }
 
 .platinum{
-  color:#f3f0ff;
+
+  color:#f8fafc;
+
+  text-shadow:
+    0 0 8px rgba(255,255,255,0.9),
+    0 0 18px rgba(220,220,220,0.9),
+    0 0 30px rgba(255,255,255,0.6);
 
   box-shadow:
-    0 0 40px rgba(230,220,255,0.95),
-    0 0 80px rgba(190,160,255,0.45),
-    inset 0 0 40px rgba(255,255,255,0.28);
+    0 0 40px rgba(255,255,255,0.45),
+    0 0 80px rgba(200,200,200,0.25),
+    inset 0 0 40px rgba(255,255,255,0.18);
 
   background:
     radial-gradient(
       circle at top,
-      rgba(255,255,255,0.18),
-      transparent 65%
+      rgba(255,255,255,0.12),
+      transparent 70%
     );
 
   border-color:
-    rgba(240,230,255,0.45);
+    rgba(255,255,255,0.35);
 }
 
 .gold{
