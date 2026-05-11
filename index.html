@@ -15,7 +15,7 @@
 }
 
 body{
-  font-family:"Helvetica Neue",sans-serif;
+  font-family: "Helvetica Neue", sans-serif;
   min-height:100vh;
   color:white;
   overflow-x:hidden;
@@ -35,7 +35,6 @@ body::before{
   content:"";
   position:fixed;
   inset:0;
-
   background-image:
     radial-gradient(2px 2px at 20% 30%, rgba(255,255,255,0.7), transparent),
     radial-gradient(2px 2px at 70% 20%, rgba(255,215,0,0.7), transparent),
@@ -43,7 +42,6 @@ body::before{
     radial-gradient(2px 2px at 30% 70%, rgba(255,215,0,0.7), transparent);
 
   animation:sparkle 6s linear infinite;
-
   pointer-events:none;
 }
 
@@ -96,13 +94,9 @@ body::before{
 .main-card::before{
   content:"";
   position:absolute;
-
   width:300px;
   height:300px;
-
-  background:
-    radial-gradient(circle, rgba(255,215,0,0.25), transparent 70%);
-
+  background:radial-gradient(circle, rgba(255,215,0,0.25), transparent 70%);
   top:-100px;
   right:-100px;
 }
@@ -185,7 +179,21 @@ body::before{
   opacity:0.9;
 }
 
-/* 色 */
+/* 色切り替え */
+
+.diamond{
+  color:#b9f2ff;
+  box-shadow:
+    0 0 35px rgba(185,242,255,0.8),
+    inset 0 0 35px rgba(185,242,255,0.25);
+}
+
+.platinum{
+  color:#e5e4e2;
+  box-shadow:
+    0 0 30px rgba(229,228,226,0.7),
+    inset 0 0 30px rgba(229,228,226,0.2);
+}
 
 .gold{
   color:#f6d36d;
@@ -195,11 +203,7 @@ body::before{
   color:#d8d8d8;
 }
 
-.bronze{
-  color:#d79a61;
-}
-
-.blue{
+.regular{
   color:#79bfff;
 }
 
@@ -214,6 +218,8 @@ body::before{
   font-size:22px;
   opacity:0.9;
 }
+
+/* 横並び */
 
 .member-list{
   display:flex;
@@ -280,59 +286,6 @@ body::before{
   font-size:18px;
 }
 
-/* 履歴 */
-
-.history-section{
-
-  margin-top:40px;
-
-  background:
-    rgba(255,255,255,0.04);
-
-  border-radius:30px;
-
-  padding:25px;
-
-  border:
-    1px solid rgba(255,255,255,0.08);
-}
-
-.history-item{
-
-  display:flex;
-
-  justify-content:space-between;
-
-  padding:15px 0;
-
-  border-bottom:
-    1px solid rgba(255,255,255,0.08);
-}
-
-.history-item:last-child{
-  border-bottom:none;
-}
-
-.history-text{
-  opacity:0.9;
-}
-
-.history-point{
-  font-weight:bold;
-}
-
-.plus{
-  color:#6ebcff;
-}
-
-.minus{
-  color:#ff7b7b;
-}
-
-.zero{
-  color:#5bff9d;
-}
-
 /* アニメーション */
 
 @keyframes fadeUp{
@@ -373,6 +326,35 @@ body::before{
   }
 
 }
+body.rank-diamond{
+  background:
+    radial-gradient(circle at top left, rgba(185,242,255,0.35), transparent 28%),
+    radial-gradient(circle at top right, rgba(255,255,255,0.22), transparent 22%),
+    radial-gradient(circle at bottom right, rgba(255,215,0,0.25), transparent 28%),
+    linear-gradient(135deg,#020617,#0f172a,#111827);
+}
+
+body.rank-diamond .main-card{
+  background:
+    linear-gradient(
+      135deg,
+      rgba(185,242,255,0.25),
+      rgba(255,215,0,0.13),
+      rgba(255,255,255,0.06)
+    );
+
+  border:1px solid rgba(185,242,255,0.45);
+
+  box-shadow:
+    0 0 60px rgba(185,242,255,0.35),
+    0 0 120px rgba(255,215,0,0.18),
+    0 0 120px rgba(0,0,0,0.45);
+}
+
+body.rank-diamond .main-card::before{
+  background:
+    radial-gradient(circle, rgba(185,242,255,0.45), transparent 70%);
+}
 
 </style>
 </head>
@@ -380,8 +362,6 @@ body::before{
 <body>
 
 <div class="container">
-
-  <!-- メインカード -->
 
   <div class="main-card">
 
@@ -419,8 +399,6 @@ body::before{
 
   </div>
 
-  <!-- 他メンバー -->
-
   <div class="other-section">
 
     <div class="other-title">
@@ -433,126 +411,53 @@ body::before{
 
   </div>
 
-  <!-- 履歴 -->
-
-  <div class="history-section">
-
-    <div class="other-title">
-      POINT HISTORY
-    </div>
-
-    <div id="historyList">
-
-    </div>
-
-  </div>
-
 </div>
 
 <script>
 
-const sheetID =
-  "1LNRt--CsEMVtk7VQUjSAolO4bLh6881EKz9dPxHNZWo";
-
+const sheetID = "1LNRt--CsEMVtk7VQUjSAolO4bLh6881EKz9dPxHNZWo";
 const sheetName = "シート1";
 
-const historySheet = "履歴";
-
-const url =
-  `https://opensheet.elk.sh/${sheetID}/${sheetName}`;
-
-const historyUrl =
-  `https://opensheet.elk.sh/${sheetID}/${historySheet}`;
-
-// ポイントアニメ
-
-function animatePoint(target){
-
-  let current = 0;
-
-  const pointElement =
-    document.getElementById("point");
-
-  const increment =
-    Math.ceil(target / 80);
-
-  const timer = setInterval(()=>{
-
-    current += increment;
-
-    if(current >= target){
-
-      current = target;
-
-      clearInterval(timer);
-
-    }
-
-    pointElement.innerHTML =
-      `${current}<span>pt</span>`;
-
-  },20);
-
-}
-
-// メイン処理
+const url = `https://opensheet.elk.sh/${sheetID}/${sheetName}`;
 
 async function loadData(){
 
-  // メインデータ取得
-
-  const response =
-    await fetch(url);
-
-  const data =
-    await response.json();
+  const response = await fetch(url);
+  const data = await response.json();
 
   // ポイント順
 
   data.sort((a,b)=>
-    Number(b.ポイント) -
-    Number(a.ポイント)
+    Number(b.ポイント) - Number(a.ポイント)
   );
 
   // URL ID取得
 
-  const params =
-    new URLSearchParams(window.location.search);
+  const params = new URLSearchParams(window.location.search);
 
-  const userID =
-    params.get("id");
+  const userID = params.get("id");
 
   // ユーザー取得
 
-  const user =
-    data.find(row =>
-      row.ID === userID
-    );
+  const user = data.find(row => row.ID === userID);
 
   if(user){
 
     document.getElementById("name").textContent =
       `${user.名前} 様`;
 
-    animatePoint(
-  Number(
-    user.ポイント
-      .replace(/,/g,"")
-      .trim()
-  )
-);
+    document.getElementById("point").innerHTML =
+      `${user.ポイント}<span>pt</span>`;
 
     // ランキング
 
     const rank =
-      data.findIndex(
-        row => row.ID === userID
-      ) + 1;
+      data.findIndex(row => row.ID === userID) + 1;
 
     document.getElementById("rankPosition").textContent =
       `${rank}位`;
 
-    // ランク
+    // ランクカラー
 
     const rankCircle =
       document.getElementById("rankCircle");
@@ -562,34 +467,33 @@ async function loadData(){
 
     if(rank === 1){
 
-      rankCircle.classList.add("gold");
-      rankName.textContent = "BLACK";
+  rankCircle.classList.add("diamond");
+  rankName.textContent = "DIAMOND";
+  document.body.classList.add("rank-diamond");
 
-    }else if(rank === 2){
+}else if(rank === 2){
 
-      rankCircle.classList.add("silver");
-      rankName.textContent = "DIAMOND";
+  rankCircle.classList.add("platinum");
+  rankName.textContent = "PLATINUM";
 
-    }else if(rank === 3){
+}else if(rank === 3){
 
-      rankCircle.classList.add("bronze");
-      rankName.textContent = "PLATINUM";
+  rankCircle.classList.add("gold");
+  rankName.textContent = "GOLD";
 
-    }else if(rank <= 5){
+}else if(rank === 4){
 
-      rankCircle.classList.add("gold");
-      rankName.textContent = "GOLD";
+  rankCircle.classList.add("silver");
+  rankName.textContent = "SILVER";
 
-    }else{
+}else{
 
-      rankCircle.classList.add("blue");
-      rankName.textContent = "SILVER";
+  rankCircle.classList.add("regular");
+  rankName.textContent = "REGULAR";
 
-    }
+}
 
-  }
-
-  // 他メンバー表示
+  // 他メンバー
 
   const memberList =
     document.getElementById("memberList");
@@ -619,66 +523,12 @@ async function loadData(){
 
   });
 
-  // 履歴取得
-
-  const historyResponse =
-    await fetch(historyUrl);
-
-  const historyData =
-    await historyResponse.json();
-
-  // 自分の履歴のみ
-
-  const userHistory =
-    historyData.filter(
-      item => item.ID === userID
-    );
-
-  // 履歴表示
-
-  const historyList =
-    document.getElementById("historyList");
-
-  userHistory.forEach(item=>{
-
-  let pointClass = "";
-
-  if(item.ポイント.includes("+")){
-
-    pointClass = "plus";
-
-  }else if(item.ポイント.includes("-")){
-
-    pointClass = "minus";
-
-  }else{
-
-    pointClass = "zero";
-
-  }
-
-  historyList.innerHTML += `
-
-    <div class="history-item">
-
-      <div class="history-text">
-        ${item.内容}
-      </div>
-
-      <div class="history-point ${pointClass}">
-        ${item.ポイント}
-      </div>
-
-    </div>
-
-  `;
-
-});
-
 }
+
 loadData();
 
 </script>
+
 
 </body>
 </html>
