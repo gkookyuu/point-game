@@ -15,7 +15,7 @@
 }
 
 body{
-  font-family: "Helvetica Neue", sans-serif;
+  font-family:"Helvetica Neue",sans-serif;
   min-height:100vh;
   color:white;
   overflow-x:hidden;
@@ -29,8 +29,6 @@ body{
   padding:20px;
 }
 
-/* キラキラ背景 */
-
 body::before{
   content:"";
   position:fixed;
@@ -40,18 +38,13 @@ body::before{
     radial-gradient(2px 2px at 70% 20%, rgba(255,215,0,0.7), transparent),
     radial-gradient(2px 2px at 80% 80%, rgba(255,255,255,0.7), transparent),
     radial-gradient(2px 2px at 30% 70%, rgba(255,215,0,0.7), transparent);
-
   animation:sparkle 6s linear infinite;
   pointer-events:none;
 }
 
 @keyframes sparkle{
-  from{
-    transform:translateY(0);
-  }
-  to{
-    transform:translateY(-20px);
-  }
+  from{ transform:translateY(0); }
+  to{ transform:translateY(-20px); }
 }
 
 .container{
@@ -59,49 +52,29 @@ body::before{
   margin:auto;
 }
 
-/* メインカード */
-
 .main-card{
-
   position:relative;
-
   border-radius:35px;
-
   padding:40px;
-
   overflow:hidden;
-
-  background:
-    linear-gradient(
-      135deg,
-      rgba(255,215,0,0.18),
-      rgba(255,255,255,0.04)
-    );
-
+  background:linear-gradient(135deg,rgba(255,215,0,0.18),rgba(255,255,255,0.04));
   border:1px solid rgba(255,255,255,0.15);
-
-  backdrop-filter: blur(20px);
-
+  backdrop-filter:blur(20px);
   box-shadow:
     0 0 50px rgba(255,215,0,0.15),
     0 0 100px rgba(0,0,0,0.4);
-
   animation:fadeUp 1s ease;
 }
-
-/* 光 */
 
 .main-card::before{
   content:"";
   position:absolute;
   width:300px;
   height:300px;
-  background:radial-gradient(circle, rgba(255,215,0,0.25), transparent 70%);
+  background:radial-gradient(circle,rgba(255,215,0,0.25),transparent 70%);
   top:-100px;
   right:-100px;
 }
-
-/* 名前 */
 
 .member-label{
   font-size:18px;
@@ -115,8 +88,6 @@ body::before{
   font-weight:700;
   margin-bottom:10px;
 }
-
-/* ポイント */
 
 .point-label{
   margin-top:40px;
@@ -135,31 +106,22 @@ body::before{
   font-size:45px;
 }
 
-/* ランク */
-
 .rank-circle{
-
   position:absolute;
   right:40px;
   top:60px;
-
   width:260px;
   height:260px;
-
   border-radius:50%;
-
   display:flex;
   flex-direction:column;
   justify-content:center;
   align-items:center;
-
   border:4px solid rgba(255,255,255,0.15);
-
   box-shadow:
     0 0 30px rgba(255,215,0,0.25),
     inset 0 0 30px rgba(255,255,255,0.05);
-
-  backdrop-filter: blur(10px);
+  backdrop-filter:blur(10px);
 }
 
 .rank-type{
@@ -169,7 +131,7 @@ body::before{
 }
 
 .rank-name{
-  font-size:58px;
+  font-size:48px;
   font-weight:bold;
 }
 
@@ -179,8 +141,6 @@ body::before{
   opacity:0.9;
 }
 
-/* 色切り替え */
-
 .diamond{
   color:#b9f2ff;
   box-shadow:
@@ -189,10 +149,22 @@ body::before{
 }
 
 .platinum{
-  color:#e5e4e2;
+  color:#f3f0ff;
+
   box-shadow:
-    0 0 30px rgba(229,228,226,0.7),
-    inset 0 0 30px rgba(229,228,226,0.2);
+    0 0 40px rgba(230,220,255,0.95),
+    0 0 80px rgba(190,160,255,0.45),
+    inset 0 0 40px rgba(255,255,255,0.28);
+
+  background:
+    radial-gradient(
+      circle at top,
+      rgba(255,255,255,0.18),
+      transparent 65%
+    );
+
+  border-color:
+    rgba(240,230,255,0.45);
 }
 
 .gold{
@@ -207,7 +179,67 @@ body::before{
   color:#79bfff;
 }
 
-/* 他メンバー */
+body.rank-diamond{
+  background:
+    radial-gradient(circle at top left, rgba(185,242,255,0.35), transparent 28%),
+    radial-gradient(circle at top right, rgba(255,255,255,0.22), transparent 22%),
+    radial-gradient(circle at bottom right, rgba(255,215,0,0.25), transparent 28%),
+    linear-gradient(135deg,#020617,#0f172a,#111827);
+}
+
+body.rank-diamond .main-card{
+  background:linear-gradient(135deg,rgba(185,242,255,0.25),rgba(255,215,0,0.13),rgba(255,255,255,0.06));
+  border:1px solid rgba(185,242,255,0.45);
+  box-shadow:
+    0 0 60px rgba(185,242,255,0.35),
+    0 0 120px rgba(255,215,0,0.18),
+    0 0 120px rgba(0,0,0,0.45);
+}
+body.rank-diamond::after{
+
+  content:"✦";
+
+  position:fixed;
+
+  inset:0;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  font-size:420px;
+
+  color:rgba(185,242,255,0.05);
+
+  pointer-events:none;
+
+  transform:rotate(-12deg);
+
+  letter-spacing:40px;
+}
+
+body.rank-diamond .main-card::after{
+
+  content:"♔";
+
+  position:absolute;
+
+  bottom:-30px;
+
+  left:-10px;
+
+  font-size:180px;
+
+  color:rgba(255,255,255,0.04);
+
+  transform:rotate(-10deg);
+}
+
+body.rank-diamond .main-card::before{
+  background:radial-gradient(circle,rgba(185,242,255,0.45),transparent 70%);
+}
 
 .other-section{
   margin-top:35px;
@@ -218,8 +250,6 @@ body::before{
   font-size:22px;
   opacity:0.9;
 }
-
-/* 横並び */
 
 .member-list{
   display:flex;
@@ -237,27 +267,13 @@ body::before{
   border-radius:10px;
 }
 
-/* 小カード */
-
 .member-card{
-
   min-width:150px;
-
-  background:
-    linear-gradient(
-      180deg,
-      rgba(255,255,255,0.06),
-      rgba(255,255,255,0.02)
-    );
-
+  background:linear-gradient(180deg,rgba(255,255,255,0.06),rgba(255,255,255,0.02));
   border-radius:25px;
-
   padding:20px;
-
   text-align:center;
-
   border:1px solid rgba(255,255,255,0.08);
-
   transition:0.3s;
 }
 
@@ -286,7 +302,44 @@ body::before{
   font-size:18px;
 }
 
-/* アニメーション */
+.history-section{
+  margin-top:40px;
+  background:rgba(255,255,255,0.04);
+  border-radius:30px;
+  padding:25px;
+  border:1px solid rgba(255,255,255,0.08);
+}
+
+.history-item{
+  display:flex;
+  justify-content:space-between;
+  padding:15px 0;
+  border-bottom:1px solid rgba(255,255,255,0.08);
+}
+
+.history-item:last-child{
+  border-bottom:none;
+}
+
+.history-text{
+  opacity:0.9;
+}
+
+.history-point{
+  font-weight:bold;
+}
+
+.plus{
+  color:#6ebcff;
+}
+
+.minus{
+  color:#ff7b7b;
+}
+
+.zero{
+  color:#5bff9d;
+}
 
 @keyframes fadeUp{
   from{
@@ -299,10 +352,7 @@ body::before{
   }
 }
 
-/* スマホ */
-
 @media(max-width:768px){
-
   .main-card{
     padding:30px;
   }
@@ -325,35 +375,9 @@ body::before{
     font-size:72px;
   }
 
-}
-body.rank-diamond{
-  background:
-    radial-gradient(circle at top left, rgba(185,242,255,0.35), transparent 28%),
-    radial-gradient(circle at top right, rgba(255,255,255,0.22), transparent 22%),
-    radial-gradient(circle at bottom right, rgba(255,215,0,0.25), transparent 28%),
-    linear-gradient(135deg,#020617,#0f172a,#111827);
-}
-
-body.rank-diamond .main-card{
-  background:
-    linear-gradient(
-      135deg,
-      rgba(185,242,255,0.25),
-      rgba(255,215,0,0.13),
-      rgba(255,255,255,0.06)
-    );
-
-  border:1px solid rgba(185,242,255,0.45);
-
-  box-shadow:
-    0 0 60px rgba(185,242,255,0.35),
-    0 0 120px rgba(255,215,0,0.18),
-    0 0 120px rgba(0,0,0,0.45);
-}
-
-body.rank-diamond .main-card::before{
-  background:
-    radial-gradient(circle, rgba(185,242,255,0.45), transparent 70%);
+  .rank-name{
+    font-size:40px;
+  }
 }
 
 </style>
@@ -365,50 +389,30 @@ body.rank-diamond .main-card::before{
 
   <div class="main-card">
 
-    <div class="member-label">
-      MEMBER STATUS
-    </div>
+    <div class="member-label">MEMBER STATUS</div>
 
-    <div class="name" id="name">
-      読み込み中...
-    </div>
+    <div class="name" id="name">読み込み中...</div>
 
-    <div class="point-label">
-      CURRENT POINT
-    </div>
+    <div class="point-label">CURRENT POINT</div>
 
-    <div class="point" id="point">
-      0<span>pt</span>
-    </div>
+    <div class="point" id="point">0<span>pt</span></div>
 
     <div class="rank-circle" id="rankCircle">
-
-      <div class="rank-type">
-        STATUS
-      </div>
-
-      <div class="rank-name" id="rankName">
-        GOLD
-      </div>
-
-      <div class="rank-position" id="rankPosition">
-        1位
-      </div>
-
+      <div class="rank-type">STATUS</div>
+      <div class="rank-name" id="rankName">REGULAR</div>
+      <div class="rank-position" id="rankPosition">-位</div>
     </div>
 
   </div>
 
   <div class="other-section">
+    <div class="other-title">他のメンバーのポイント</div>
+    <div class="member-list" id="memberList"></div>
+  </div>
 
-    <div class="other-title">
-      他のメンバーのポイント
-    </div>
-
-    <div class="member-list" id="memberList">
-
-    </div>
-
+  <div class="history-section">
+    <div class="other-title">POINT HISTORY</div>
+    <div id="historyList"></div>
   </div>
 
 </div>
@@ -417,120 +421,152 @@ body.rank-diamond .main-card::before{
 
 const sheetID = "1LNRt--CsEMVtk7VQUjSAolO4bLh6881EKz9dPxHNZWo";
 const sheetName = "シート1";
+const historySheet = "履歴";
 
 const url = `https://opensheet.elk.sh/${sheetID}/${sheetName}`;
+const historyUrl = `https://opensheet.elk.sh/${sheetID}/${historySheet}`;
+
+function cleanNumber(value){
+  return Number(String(value).replace(/,/g,"").trim());
+}
+
+function animatePoint(target){
+  if(isNaN(target)){
+    target = 0;
+  }
+
+  let current = 0;
+  const pointElement = document.getElementById("point");
+  const increment = Math.max(1, Math.ceil(target / 80));
+
+  const timer = setInterval(()=>{
+    current += increment;
+
+    if(current >= target){
+      current = target;
+      clearInterval(timer);
+    }
+
+    pointElement.innerHTML = `${current}<span>pt</span>`;
+  },20);
+}
+
+function setRank(rank){
+  const rankCircle = document.getElementById("rankCircle");
+  const rankName = document.getElementById("rankName");
+
+  rankCircle.classList.remove("diamond","platinum","gold","silver","regular");
+  document.body.classList.remove("rank-diamond");
+
+  if(rank === 1){
+    rankCircle.classList.add("diamond");
+    rankName.textContent = "DIAMOND";
+    document.body.classList.add("rank-diamond");
+  }else if(rank === 2){
+    rankCircle.classList.add("platinum");
+    rankName.textContent = "PLATINUM";
+  }else if(rank === 3){
+    rankCircle.classList.add("gold");
+    rankName.textContent = "GOLD";
+  }else if(rank === 4){
+    rankCircle.classList.add("silver");
+    rankName.textContent = "SILVER";
+  }else{
+    rankCircle.classList.add("regular");
+    rankName.textContent = "REGULAR";
+  }
+}
+
+function getHistoryClass(pointText){
+  const text = String(pointText).trim();
+
+  if(text.includes("+")){
+    return "plus";
+  }
+
+  if(text.includes("-")){
+    return "minus";
+  }
+
+  return "zero";
+}
 
 async function loadData(){
-
   const response = await fetch(url);
   const data = await response.json();
 
-  // ポイント順
-
-  data.sort((a,b)=>
-    Number(b.ポイント) - Number(a.ポイント)
-  );
-
-  // URL ID取得
+  data.sort((a,b)=> cleanNumber(b.ポイント) - cleanNumber(a.ポイント));
 
   const params = new URLSearchParams(window.location.search);
-
   const userID = params.get("id");
-
-  // ユーザー取得
 
   const user = data.find(row => row.ID === userID);
 
   if(user){
+    document.getElementById("name").textContent = `${user.名前} 様`;
+    animatePoint(cleanNumber(user.ポイント));
 
-    document.getElementById("name").textContent =
-      `${user.名前} 様`;
+    const rank = data.findIndex(row => row.ID === userID) + 1;
 
-    document.getElementById("point").innerHTML =
-      `${user.ポイント}<span>pt</span>`;
+    document.getElementById("rankPosition").textContent = `${rank}位`;
+    setRank(rank);
+  }else{
+    document.getElementById("name").textContent = "ユーザーが見つかりません";
+    document.getElementById("point").innerHTML = `0<span>pt</span>`;
+    document.getElementById("rankPosition").textContent = "-位";
+    setRank(999);
+  }
 
-    // ランキング
-
-    const rank =
-      data.findIndex(row => row.ID === userID) + 1;
-
-    document.getElementById("rankPosition").textContent =
-      `${rank}位`;
-
-    // ランクカラー
-
-    const rankCircle =
-      document.getElementById("rankCircle");
-
-    const rankName =
-      document.getElementById("rankName");
-
-    if(rank === 1){
-
-  rankCircle.classList.add("diamond");
-  rankName.textContent = "DIAMOND";
-  document.body.classList.add("rank-diamond");
-
-}else if(rank === 2){
-
-  rankCircle.classList.add("platinum");
-  rankName.textContent = "PLATINUM";
-
-}else if(rank === 3){
-
-  rankCircle.classList.add("gold");
-  rankName.textContent = "GOLD";
-
-}else if(rank === 4){
-
-  rankCircle.classList.add("silver");
-  rankName.textContent = "SILVER";
-
-}else{
-
-  rankCircle.classList.add("regular");
-  rankName.textContent = "REGULAR";
-
-}
-
-} // 
-
-  // 他メンバー
-
-  const memberList =
-    document.getElementById("memberList");
+  const memberList = document.getElementById("memberList");
+  memberList.innerHTML = "";
 
   data.forEach((player,index)=>{
-
     memberList.innerHTML += `
-
       <div class="member-card">
-
-        <div class="member-rank">
-          ${index + 1}位
-        </div>
-
-        <div class="member-name">
-          ${player.名前}
-        </div>
-
-        <div class="member-point">
-          ${player.ポイント}
-          <span>pt</span>
-        </div>
-
+        <div class="member-rank">${index + 1}位</div>
+        <div class="member-name">${player.名前}</div>
+        <div class="member-point">${player.ポイント}<span>pt</span></div>
       </div>
-
     `;
-
   });
 
+  try{
+    const historyResponse = await fetch(historyUrl);
+    const historyData = await historyResponse.json();
+
+    const historyList = document.getElementById("historyList");
+    historyList.innerHTML = "";
+
+    const userHistory = historyData.filter(item => item.ID === userID);
+
+    if(userHistory.length === 0){
+      historyList.innerHTML = `<div class="history-item"><div class="history-text">履歴はまだありません</div><div class="history-point zero">0</div></div>`;
+      return;
+    }
+
+    userHistory.forEach(item=>{
+      const pointClass = getHistoryClass(item.ポイント);
+
+      historyList.innerHTML += `
+        <div class="history-item">
+          <div class="history-text">${item.内容}</div>
+          <div class="history-point ${pointClass}">${item.ポイント}</div>
+        </div>
+      `;
+    });
+  }catch(error){
+    document.getElementById("historyList").innerHTML = `
+      <div class="history-item">
+        <div class="history-text">履歴を読み込めませんでした</div>
+        <div class="history-point zero">0</div>
+      </div>
+    `;
+  }
 }
 
 loadData();
 
 </script>
-
 
 </body>
 </html>
